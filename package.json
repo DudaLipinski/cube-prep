@@ -1,0 +1,9 @@
+{
+  "name": "cube-prep",
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev:api": "bun --cwd apps/api dev",
+    "dev:web": "bun --cwd apps/web dev"
+  }
+}
