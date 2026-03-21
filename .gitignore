@@ -41,3 +41,4 @@ build/
 # VSCode / OS
 .vscode/
 .DS_Store
+.github/

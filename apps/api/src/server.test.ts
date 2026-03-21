@@ -3,7 +3,6 @@ import app from "./server";
 
 describe("GET /", () => {
   it("should return 'API running'", async () => {
-    // call Hono handler directly
     const request = new Request("http://localhost:3000/");
     const response = await app.fetch(request);
 

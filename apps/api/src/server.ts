@@ -1,20 +1,9 @@
 import { Hono } from "hono";
-import * as z from "zod";
-import { zValidator } from "@hono/zod-validator";
+import { portionRoutes } from "./modules/portion/portion.routes";
 
 const app = new Hono();
 
-const helloQuerySchema = z.object({
-  name: z.string(),
-});
-
-const validateHelloQuery = zValidator("query", helloQuerySchema);
-
-app.get("/hello", validateHelloQuery, (c) => {
-  const { name } = c.req.valid("query");
-  return c.json({
-    message: `Hello! ${name}`,
-  });
-});
+app.get("/", (c) => c.text("API running"));
+app.route("/portion", portionRoutes);
 
 export default app;
