@@ -1,7 +1,20 @@
-import { Hono } from "hono"
+import { Hono } from "hono";
+import * as z from "zod";
+import { zValidator } from "@hono/zod-validator";
 
-const app = new Hono()
+const app = new Hono();
 
-app.get("/", (c) => c.text("API running"))
+const helloQuerySchema = z.object({
+  name: z.string(),
+});
 
-export default app
+const validateHelloQuery = zValidator("query", helloQuerySchema);
+
+app.get("/hello", validateHelloQuery, (c) => {
+  const { name } = c.req.valid("query");
+  return c.json({
+    message: `Hello! ${name}`,
+  });
+});
+
+export default app;
