@@ -1,10 +1,18 @@
 import { drizzle } from "drizzle-orm/node-postgres";
-import { Client } from "pg";
+import { Pool } from "pg";
 
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-});
+const globalDb = globalThis as unknown as {
+  pgPool?: Pool;
+};
 
-await client.connect();
+const pool =
+  globalDb.pgPool ??
+  new Pool({
+    connectionString: process.env.DATABASE_URL,
+  });
 
-export const db = drizzle(client);
+if (!globalDb.pgPool) {
+  globalDb.pgPool = pool;
+}
+
+export const db = drizzle(pool);
