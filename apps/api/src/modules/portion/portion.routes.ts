@@ -1,7 +1,4 @@
 import { OpenAPIHono, createRoute } from "@hono/zod-openapi";
-import { eq } from "drizzle-orm";
-import { db } from "../../db";
-import { portionsTable } from "../../db/schema";
 import { validationError } from "../../shared/validation-errors";
 import {
   createPortionBodySchema,
@@ -12,18 +9,19 @@ import {
   updatePortionBodySchema,
   validationErrorSchema,
 } from "./portion.schemas";
+import {
+  listPortions,
+  getPortionById,
+  createPortion,
+  updatePortion,
+  deletePortion,
+} from "./portion.model";
 
 const notFoundPortion = {
   error: "not_found" as const,
   message: "Portion not found",
   status: 404 as const,
 };
-
-const toPortionResponse = (portion: typeof portionsTable.$inferSelect) => ({
-  ...portion,
-  prepared_at: portion.prepared_at.toISOString(),
-  created_at: portion.created_at.toISOString(),
-});
 
 export const portionRoutes = new OpenAPIHono({
   defaultHook: validationError("Validation failed"),
@@ -46,8 +44,8 @@ portionRoutes.openapi(
     },
   }),
   async (c) => {
-    const portions = await db.select().from(portionsTable);
-    return c.json(portions.map(toPortionResponse), 200);
+    const portions = await listPortions();
+    return c.json(portions, 200);
   },
 );
 
@@ -88,13 +86,13 @@ portionRoutes.openapi(
   }),
   async (c) => {
     const { id } = c.req.valid("param");
-    const [portion] = await db.select().from(portionsTable).where(eq(portionsTable.id, id));
+    const portion = await getPortionById(id);
 
     if (!portion) {
       return c.json(notFoundPortion, 404);
     }
 
-    return c.json(toPortionResponse(portion), 200);
+    return c.json(portion, 200);
   },
 );
 
@@ -133,13 +131,9 @@ portionRoutes.openapi(
   }),
   async (c) => {
     const payload = c.req.valid("json");
-    const [portion] = await db.insert(portionsTable).values(payload).returning();
+    const portion = await createPortion(payload);
 
-    if (!portion) {
-      throw new Error("Failed to create portion");
-    }
-
-    return c.json(toPortionResponse(portion), 201);
+    return c.json(portion, 201);
   },
 );
 
@@ -189,17 +183,13 @@ portionRoutes.openapi(
     const payload = c.req.valid("json");
     const { id } = c.req.valid("param");
 
-    const [portion] = await db
-      .update(portionsTable)
-      .set(payload)
-      .where(eq(portionsTable.id, id))
-      .returning();
+    const portion = await updatePortion(id, payload);
 
     if (!portion) {
       return c.json(notFoundPortion, 404);
     }
 
-    return c.json(toPortionResponse(portion), 200);
+    return c.json(portion, 200);
   },
 );
 
@@ -241,12 +231,8 @@ portionRoutes.openapi(
   async (c) => {
     const { id } = c.req.valid("param");
 
-    const deletedPortion = await db
-      .delete(portionsTable)
-      .where(eq(portionsTable.id, id))
-      .returning();
-
-    if (!deletedPortion.length) {
+    const deletedPortions = await deletePortion(id);
+    if (!deletedPortions.length) {
       return c.json(notFoundPortion, 404);
     }
 

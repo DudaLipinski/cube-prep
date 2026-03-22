@@ -13,14 +13,15 @@ export const portionIdParamSchema = z.object({
 });
 
 export const portionTypeSchema = z.enum(PORTION_TYPES);
-export const preparedAtSchema = z.iso.datetime().transform((value) => new Date(value));
+export const dateSchema = z.iso.datetime().transform((value) => new Date(value));
+export const dateToIsoSchema = z.date().transform((d) => d.toISOString());
 
 export const createPortionBodySchema = z
   .object({
     name: z.string().trim().min(1).openapi({ example: "Rice cubes" }),
     type: portionTypeSchema,
     quantity: z.number().int().positive().openapi({ example: 4 }),
-    prepared_at: preparedAtSchema,
+    prepared_at: dateSchema,
   })
   .openapi("CreatePortionBody");
 
@@ -37,8 +38,8 @@ export const portionResponseSchema = z
     name: z.string(),
     type: portionTypeSchema,
     quantity: z.number().int(),
-    prepared_at: z.iso.datetime(),
-    created_at: z.iso.datetime(),
+    prepared_at: dateToIsoSchema,
+    created_at: dateToIsoSchema,
   })
   .openapi("Portion");
 
