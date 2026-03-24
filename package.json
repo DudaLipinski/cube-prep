@@ -8,6 +8,7 @@
   "scripts": {
     "dev:api": "bun --cwd apps/api dev",
     "dev:web": "bun --cwd apps/web dev",
+    "dev": "bun --cwd apps/api dev & bun --cwd apps/web dev",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,mts,cts,json,md,mdx,yml,yaml}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mts,cts,json,md,mdx,yml,yaml}\""
   },
