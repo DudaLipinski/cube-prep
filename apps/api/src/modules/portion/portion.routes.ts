@@ -3,6 +3,7 @@ import { validationError } from "../../shared/validation-errors";
 import {
   createPortionBodySchema,
   deleteSuccessSchema,
+  listPortionsQuerySchema,
   notFoundErrorSchema,
   portionResponseSchema,
   portionIdParamSchema,
@@ -32,6 +33,9 @@ portionRoutes.openapi(
     method: "get",
     path: "/",
     tags: ["Portion"],
+    request: {
+      query: listPortionsQuerySchema,
+    },
     responses: {
       200: {
         description: "List portions",
@@ -44,7 +48,8 @@ portionRoutes.openapi(
     },
   }),
   async (c) => {
-    const portions = await listPortions();
+    const query = c.req.valid("query");
+    const portions = await listPortions(query);
     return c.json(portions, 200);
   },
 );
