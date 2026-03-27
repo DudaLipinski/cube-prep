@@ -1,0 +1,19 @@
+{
+  "name": "@cube-prep/api-client",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/generated/schema.ts"
+  },
+  "scripts": {
+    "generate": "bun run --cwd ../../apps/api generate:openapi && bunx openapi-typescript ../../apps/api/openapi.json -o ./src/generated/schema.ts"
+  },
+  "dependencies": {
+    "openapi-fetch": "^0.13.8"
+  },
+  "devDependencies": {
+    "openapi-typescript": "^7.10.1",
+    "typescript": "^5.9.3"
+  }
+}
