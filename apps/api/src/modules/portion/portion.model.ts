@@ -1,10 +1,25 @@
-import { eq } from "drizzle-orm";
+import { eq, asc, desc } from "drizzle-orm";
 import { db } from "../../db";
 import { portionsTable } from "../../db/schema";
-import type { CreatePortionBody, UpdatePortionBody } from "./portion.schemas";
+import type { CreatePortionBody, ListPortionsQuery, UpdatePortionBody } from "./portion.schemas";
 
-export async function listPortions() {
-  return await db.select().from(portionsTable);
+const sortableColumns = {
+  name: portionsTable.name,
+  quantity: portionsTable.quantity,
+  prepared_at: portionsTable.prepared_at,
+  created_at: portionsTable.created_at,
+} satisfies Record<NonNullable<ListPortionsQuery["sort"]>, unknown>;
+
+export async function listPortions(query: ListPortionsQuery) {
+  const sortKey = query.sort ?? "created_at";
+  const sortColumn = sortableColumns[sortKey];
+  const orderFn = query.order === "asc" ? asc : desc;
+
+  return await db
+    .select()
+    .from(portionsTable)
+    .where(query.type ? eq(portionsTable.type, query.type) : undefined)
+    .orderBy(orderFn(sortColumn));
 }
 
 export async function getPortionById(id: string) {
