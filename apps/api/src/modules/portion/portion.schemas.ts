@@ -1,6 +1,6 @@
 import { z } from "@hono/zod-openapi";
-import { PORTION_TYPES } from "../../shared/constants/portion-types";
-export { notFoundErrorSchema, validationErrorSchema } from "../../shared/schemas/error-schemas";
+import { PORTION_TYPES } from "@/shared/constants/portion-types";
+export { notFoundErrorSchema, validationErrorSchema } from "@/shared/schemas/error-schemas";
 
 export const portionTypeSchema = z.enum(PORTION_TYPES);
 export const dateSchema = z.iso.datetime().transform((value) => new Date(value));

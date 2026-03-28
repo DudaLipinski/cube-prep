@@ -1,6 +1,6 @@
 import { eq, asc, desc } from "drizzle-orm";
-import { db } from "../../db";
-import { portionsTable } from "../../db/schema";
+import { db } from "@/db";
+import { portionsTable } from "@/db/schema";
 import type { CreatePortionBody, ListPortionsQuery, UpdatePortionBody } from "./portion.schemas";
 
 const sortableColumns = {

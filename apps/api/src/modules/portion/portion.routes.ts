@@ -1,5 +1,5 @@
 import { OpenAPIHono, createRoute } from "@hono/zod-openapi";
-import { validationError } from "../../shared/validation-errors";
+import { validationError } from "@/shared/validation-errors";
 import {
   createPortionBodySchema,
   deleteSuccessSchema,

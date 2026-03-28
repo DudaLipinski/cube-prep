@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from "bun:test";
-import { db } from "../../db";
-import app from "../../server";
+import { db } from "@/db";
+import app from "@/server";
 
 const originalInsert = db.insert;
 
