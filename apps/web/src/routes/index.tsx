@@ -7,7 +7,7 @@ import { Bean, CookingPot, Droplets, Drumstick, Leaf, Plus, Soup, Wheat } from "
 import { Card, CardContent, CardHeader, CardTitle, CardAction } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatDistanceToNowStrict } from "date-fns";
-import { Route as createRoute } from "@/routes/portion/create.tsx";
+import { Route as createRoute } from "@/routes/portion/create";
 
 import { cn } from "@/lib/utils";
 

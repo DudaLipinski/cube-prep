@@ -32,16 +32,18 @@ const portionTypes: Array<CreatePortionBody["type"]> = [
   "other",
 ];
 
-const defaultValues: FormState = {
-  name: "",
-  type: "carb",
-  quantity: "1",
-  preparedAt: toDateTimeLocalValue(new Date()),
-};
-
 function toDateTimeLocalValue(date: Date): string {
   const tzOffsetMs = date.getTimezoneOffset() * 60 * 1000;
   return new Date(date.getTime() - tzOffsetMs).toISOString().slice(0, 16);
+}
+
+function getDefaultValues(): FormState {
+  return {
+    name: "",
+    type: "carb",
+    quantity: "1",
+    preparedAt: toDateTimeLocalValue(new Date()),
+  };
 }
 
 function CreatePortion() {
@@ -49,7 +51,7 @@ function CreatePortion() {
   const mutation = useMutation(portionsMutationOptions);
 
   const form = useForm({
-    defaultValues,
+    defaultValues: getDefaultValues(),
     onSubmit: async ({ value }: { value: FormState }) => {
       mutation.reset();
 
@@ -66,7 +68,7 @@ function CreatePortion() {
         toast.success("Portion created.", {
           position: "bottom-center",
         });
-        form.reset(defaultValues);
+        form.reset(getDefaultValues());
       } catch (error) {
         const message =
           error instanceof Error && error.message ? error.message : "Could not create portion.";
