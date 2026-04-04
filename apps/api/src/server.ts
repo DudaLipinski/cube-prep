@@ -14,7 +14,7 @@ app.route("/portion", portionRoutes);
 app.doc("/openapi.json", {
   openapi: "3.0.0",
   info: {
-    title: "Cube Prep API",
+    title: "Cubby API",
     version: "1.0.0",
   },
 });

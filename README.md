@@ -1,4 +1,4 @@
-# cube-prep
+# Cubby
 
 To install dependencies:
 

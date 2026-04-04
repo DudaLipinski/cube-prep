@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { type ComponentType, type SVGProps } from "react";
 import type { Portion } from "@cube-prep/api-client";
 import { Bean, CookingPot, Droplets, Drumstick, Leaf, Plus, Soup, Wheat } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardAction } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { formatDistanceToNowStrict } from "date-fns";
@@ -90,7 +91,7 @@ function HomePage() {
   const { data, isError, isPending } = useQuery(portionsQueryOptions);
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-4xl flex-col justify-center px-4 py-8 sm:px-6 md:px-8">
+    <main className="mx-auto flex w-full max-w-4xl flex-col px-4 py-6 pb-28 sm:px-6 md:px-8 md:py-8 md:pb-14">
       <h1 className="text-3xl font-semibold tracking-[-0.02em] text-foreground md:text-[2.15rem] mb-5">
         Pantry Inventory
       </h1>
@@ -143,12 +144,17 @@ function HomePage() {
               </Card>
             );
           })}
-        <Link to={createRoute.to}>
-          <Card className="flex justify-center h-full">
-            <Plus className="text-muted-foreground/65 self-center" />
-          </Card>
-        </Link>
       </div>
+
+      <Button
+        asChild
+        size="icon-lg"
+        className="fixed right-4 bottom-5 z-20 rounded-full bg-linear-to-br from-primary to-primary-dim text-primary-foreground shadow-[0_10px_30px_rgb(82_100_71_/_0.22)] hover:from-primary hover:to-primary hover:bg-primary md:right-8 md:bottom-8"
+      >
+        <Link to={createRoute.to} aria-label="Add portion">
+          <Plus className="size-5" aria-hidden="true" />
+        </Link>
+      </Button>
     </main>
   );
 }

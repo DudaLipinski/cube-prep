@@ -42,3 +42,7 @@ build/
 .vscode/
 .DS_Store
 .github/
+
+# Local backup of nested git metadata
+apps/web/.git.backup/
+apps/web/.git.backup-*/

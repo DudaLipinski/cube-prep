@@ -7,7 +7,7 @@ const outputUrl = new URL("../openapi.json", import.meta.url);
 const document = app.getOpenAPIDocument({
   openapi: "3.0.0",
   info: {
-    title: "Cube Prep API",
+    title: "Cubby API",
     version: "1.0.0",
   },
 });

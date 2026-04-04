@@ -7,7 +7,7 @@ import { useForm } from "@tanstack/react-form";
 import { Field, FieldContent, FieldGroup, FieldLabel, FieldTitle } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/portion/create")({
@@ -91,9 +91,6 @@ function CreatePortion() {
       </h1>
 
       <Card>
-        <CardHeader>
-          <CardTitle>Portion details</CardTitle>
-        </CardHeader>
         <CardContent>
           <form
             className="space-y-6"
@@ -157,7 +154,7 @@ function CreatePortion() {
                       id="portion-quantity"
                       type="number"
                       min={1}
-                      step={1}
+                      step={0.5}
                       inputMode="numeric"
                       value={field.state.value}
                       onChange={(event) => field.handleChange(event.target.value)}
