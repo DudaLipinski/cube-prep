@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  portionsQueryOptions,
+  portionsQueryKey,
   portionByIdQueryOptions,
   updatePortionMutationOptions,
 } from "@/queries/portion";
@@ -75,7 +75,7 @@ function UpdatePortionForm({ portionId, initialValues }: UpdatePortionFormProps)
 
       try {
         await updateMutation.mutateAsync(payload);
-        void queryClient.invalidateQueries({ queryKey: portionsQueryOptions.queryKey });
+        void queryClient.invalidateQueries({ queryKey: portionsQueryKey });
         void queryClient.invalidateQueries({ queryKey: ["portion", portionId] });
 
         toast.success("Portion updated.", {

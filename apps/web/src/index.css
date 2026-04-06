@@ -23,7 +23,7 @@
   --foreground: #35322a;
   --card: #ffffff;
   --card-foreground: #35322a;
-  --popover: rgb(252 251 247 / 80%);
+  --popover: rgb(252 251 247 / 100%);
   --popover-foreground: #35322a;
   --primary: #526447;
   --primary-foreground: #fef9f1;
@@ -39,7 +39,7 @@
   --accent-foreground: #42384c;
   --destructive: oklch(0.577 0.245 27.325);
   --border: rgb(53 50 42 / 15%);
-  --input: #f4f0e8;
+  --input: #e8e0d4;
   --ring: rgb(82 100 71 / 40%);
   --chart-1: oklch(0.868 0.007 39.5);
   --chart-2: oklch(0.547 0.021 43.1);
