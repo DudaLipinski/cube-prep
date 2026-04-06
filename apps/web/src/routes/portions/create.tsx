@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { portionsMutationOptions, portionsQueryOptions } from "@/queries/portion";
+import { portionsMutationOptions, portionsQueryKey } from "@/queries/portion";
 import { Button } from "@/components/ui/button";
 import { useForm } from "@tanstack/react-form";
 import { Field, FieldContent, FieldGroup, FieldLabel, FieldTitle } from "@/components/ui/field";
@@ -31,7 +31,7 @@ function CreatePortion() {
 
       try {
         await mutation.mutateAsync(payload);
-        void queryClient.invalidateQueries({ queryKey: portionsQueryOptions.queryKey });
+        void queryClient.invalidateQueries({ queryKey: portionsQueryKey });
         toast.success("Portion created.", {
           position: "bottom-center",
         });

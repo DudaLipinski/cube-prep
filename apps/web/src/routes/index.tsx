@@ -5,5 +5,5 @@ export const Route = createFileRoute("/")({
 });
 
 function HomeRedirect() {
-  return <Navigate to="/portions" />;
+  return <Navigate to="/portions" search={{ sort: undefined, order: undefined }} />;
 }

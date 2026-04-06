@@ -1,18 +1,31 @@
 import { mutationOptions, queryOptions } from "@tanstack/react-query";
-import { apiClient, type CreatePortionBody, type UpdatePortionBody } from "@cube-prep/api-client";
+import {
+  apiClient,
+  type CreatePortionBody,
+  type paths,
+  type UpdatePortionBody,
+} from "@cube-prep/api-client";
 
-export const portionsQueryOptions = queryOptions({
-  queryKey: ["portions"],
-  queryFn: async () => {
-    const { data } = await apiClient.GET("/portions");
+type ListPortionsQuery = NonNullable<paths["/portions"]["get"]["parameters"]["query"]>;
+export const portionsQueryKey = ["portions"] as const;
 
-    if (!data) {
-      throw new Error("Could not load portions.");
-    }
+export const portionsQueryOptions = (query?: ListPortionsQuery) =>
+  queryOptions({
+    queryKey: [...portionsQueryKey, query?.sort, query?.order],
+    queryFn: async () => {
+      const { data } = await apiClient.GET("/portions", {
+        params: {
+          query,
+        },
+      });
 
-    return data;
-  },
-});
+      if (!data) {
+        throw new Error("Could not load portions.");
+      }
+
+      return data;
+    },
+  });
 
 export const portionsMutationOptions = mutationOptions({
   mutationKey: ["create-portion"],
