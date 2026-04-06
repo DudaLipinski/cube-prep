@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardAction } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { formatDistanceToNowStrict } from "date-fns";
 import { Route as createRoute } from "@/routes/portion/create";
+import { Route as updateRoute } from "@/routes/portion/update";
 
 import { cn } from "@/lib/utils";
 
@@ -113,35 +114,45 @@ function HomePage() {
             const Icon = tile.icon;
 
             return (
-              <Card key={portion.id} className="gap-3" size="sm">
-                <CardHeader>
-                  <CardTitle
-                    className={cn(
-                      "inline-flex size-11 items-center justify-center rounded-xl",
-                      tile.iconBadgeClass,
-                    )}
-                  >
-                    <Icon className="size-4 text-foreground/75" aria-hidden="true" />
-                  </CardTitle>
-                  <CardAction className="gap-1 flex flex-wrap justify-end">
-                    <Badge variant="outline">{portion.quantity} qty</Badge>
-                  </CardAction>
-                </CardHeader>
+              <Link
+                key={portion.id}
+                to={updateRoute.to}
+                search={{ portionId: portion.id }}
+                className="rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <Card
+                  className="gap-3 transition-shadow duration-150 hover:shadow-md hover:shadow-black/5 hover:ring-1 hover:ring-border/60"
+                  size="sm"
+                >
+                  <CardHeader>
+                    <CardTitle
+                      className={cn(
+                        "inline-flex size-11 items-center justify-center rounded-xl",
+                        tile.iconBadgeClass,
+                      )}
+                    >
+                      <Icon className="size-4 text-foreground/75" aria-hidden="true" />
+                    </CardTitle>
+                    <CardAction className="gap-1 flex flex-wrap justify-end">
+                      <Badge variant="outline">{portion.quantity} qty</Badge>
+                    </CardAction>
+                  </CardHeader>
 
-                <CardContent>
-                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-foreground/65">
-                    {tile.label}
-                  </p>
-                  <h2 className="mt-1 text-xl font-semibold leading-tight tracking-[-0.02em] text-foreground">
-                    {portion.name}
-                  </h2>
-                  <p className="text-xs mt-1">
-                    {formatDistanceToNowStrict(new Date(portion.prepared_at), {
-                      addSuffix: true,
-                    })}
-                  </p>
-                </CardContent>
-              </Card>
+                  <CardContent>
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-foreground/65">
+                      {tile.label}
+                    </p>
+                    <h2 className="mt-1 text-xl font-semibold leading-tight tracking-[-0.02em] text-foreground">
+                      {portion.name}
+                    </h2>
+                    <p className="text-xs mt-1">
+                      {formatDistanceToNowStrict(new Date(portion.prepared_at), {
+                        addSuffix: true,
+                      })}
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
             );
           })}
       </div>

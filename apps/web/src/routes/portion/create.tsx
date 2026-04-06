@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { portionsMutationOptions, portionsQueryOptions } from "@/queries/portion";
-import type { CreatePortionBody } from "@cube-prep/api-client";
 import { Button } from "@/components/ui/button";
 import { useForm } from "@tanstack/react-form";
 import { Field, FieldContent, FieldGroup, FieldLabel, FieldTitle } from "@/components/ui/field";
@@ -9,66 +8,34 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
+import {
+  getDefaultPortionFormValues,
+  mapFormToPortionPayload,
+  portionTypes,
+  type PortionFormState,
+} from "./-portion-form.shared";
 
 export const Route = createFileRoute("/portion/create")({
   component: CreatePortion,
 });
-
-type FormState = {
-  name: string;
-  type: CreatePortionBody["type"];
-  quantity: string;
-  preparedAt: string;
-};
-
-const portionTypes: Array<CreatePortionBody["type"]> = [
-  "carb",
-  "protein",
-  "vegetable",
-  "legume",
-  "fat",
-  "sauce",
-  "soup",
-  "other",
-];
-
-function toDateTimeLocalValue(date: Date): string {
-  const tzOffsetMs = date.getTimezoneOffset() * 60 * 1000;
-  return new Date(date.getTime() - tzOffsetMs).toISOString().slice(0, 16);
-}
-
-function getDefaultValues(): FormState {
-  return {
-    name: "",
-    type: "carb",
-    quantity: "1",
-    preparedAt: toDateTimeLocalValue(new Date()),
-  };
-}
 
 function CreatePortion() {
   const queryClient = useQueryClient();
   const mutation = useMutation(portionsMutationOptions);
 
   const form = useForm({
-    defaultValues: getDefaultValues(),
-    onSubmit: async ({ value }: { value: FormState }) => {
+    defaultValues: getDefaultPortionFormValues(),
+    onSubmit: async ({ value }: { value: PortionFormState }) => {
       mutation.reset();
-
-      const payload: CreatePortionBody = {
-        name: value.name.trim(),
-        type: value.type,
-        quantity: Number(value.quantity),
-        prepared_at: new Date(value.preparedAt).toISOString(),
-      };
+      const payload = mapFormToPortionPayload(value);
 
       try {
         await mutation.mutateAsync(payload);
-        await queryClient.invalidateQueries({ queryKey: portionsQueryOptions.queryKey });
+        void queryClient.invalidateQueries({ queryKey: portionsQueryOptions.queryKey });
         toast.success("Portion created.", {
           position: "bottom-center",
         });
-        form.reset(getDefaultValues());
+        form.reset(getDefaultPortionFormValues());
       } catch (error) {
         const message =
           error instanceof Error && error.message ? error.message : "Could not create portion.";
@@ -97,6 +64,7 @@ function CreatePortion() {
             onSubmit={(event) => {
               event.preventDefault();
               event.stopPropagation();
+              if (!event.currentTarget.reportValidity()) return;
               form.handleSubmit();
             }}
           >
@@ -125,7 +93,7 @@ function CreatePortion() {
                       <RadioGroup
                         value={field.state.value}
                         onValueChange={(value) =>
-                          field.handleChange(value as CreatePortionBody["type"])
+                          field.handleChange(value as PortionFormState["type"])
                         }
                         className="grid grid-cols-2 gap-3 sm:grid-cols-4"
                       >
@@ -154,7 +122,7 @@ function CreatePortion() {
                       id="portion-quantity"
                       type="number"
                       min={1}
-                      step={0.5}
+                      step={0.25}
                       inputMode="decimal"
                       value={field.state.value}
                       onChange={(event) => field.handleChange(event.target.value)}
