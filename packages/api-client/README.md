@@ -1,6 +1,6 @@
 # `@cube-prep/api-client`
 
-Typed API contract package for Cube Prep.
+Typed API contract package for Cubby.
 
 ## Generate
 

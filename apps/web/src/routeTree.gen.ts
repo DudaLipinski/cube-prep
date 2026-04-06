@@ -9,12 +9,24 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PlannerRouteImport } from './routes/planner'
+import { Route as MealsRouteImport } from './routes/meals'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PortionIndexRouteImport } from './routes/portion/index'
 import { Route as PortionUpdateRouteImport } from './routes/portion/update'
 import { Route as PortionListRouteImport } from './routes/portion/list'
 import { Route as PortionCreateRouteImport } from './routes/portion/create'
 
+const PlannerRoute = PlannerRouteImport.update({
+  id: '/planner',
+  path: '/planner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MealsRoute = MealsRouteImport.update({
+  id: '/meals',
+  path: '/meals',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -43,6 +55,8 @@ const PortionCreateRoute = PortionCreateRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/meals': typeof MealsRoute
+  '/planner': typeof PlannerRoute
   '/portion/create': typeof PortionCreateRoute
   '/portion/list': typeof PortionListRoute
   '/portion/update': typeof PortionUpdateRoute
@@ -50,6 +64,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/meals': typeof MealsRoute
+  '/planner': typeof PlannerRoute
   '/portion/create': typeof PortionCreateRoute
   '/portion/list': typeof PortionListRoute
   '/portion/update': typeof PortionUpdateRoute
@@ -58,6 +74,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/meals': typeof MealsRoute
+  '/planner': typeof PlannerRoute
   '/portion/create': typeof PortionCreateRoute
   '/portion/list': typeof PortionListRoute
   '/portion/update': typeof PortionUpdateRoute
@@ -67,15 +85,26 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/meals'
+    | '/planner'
     | '/portion/create'
     | '/portion/list'
     | '/portion/update'
     | '/portion/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/portion/create' | '/portion/list' | '/portion/update' | '/portion'
+  to:
+    | '/'
+    | '/meals'
+    | '/planner'
+    | '/portion/create'
+    | '/portion/list'
+    | '/portion/update'
+    | '/portion'
   id:
     | '__root__'
     | '/'
+    | '/meals'
+    | '/planner'
     | '/portion/create'
     | '/portion/list'
     | '/portion/update'
@@ -84,6 +113,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MealsRoute: typeof MealsRoute
+  PlannerRoute: typeof PlannerRoute
   PortionCreateRoute: typeof PortionCreateRoute
   PortionListRoute: typeof PortionListRoute
   PortionUpdateRoute: typeof PortionUpdateRoute
@@ -92,6 +123,20 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/planner': {
+      id: '/planner'
+      path: '/planner'
+      fullPath: '/planner'
+      preLoaderRoute: typeof PlannerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/meals': {
+      id: '/meals'
+      path: '/meals'
+      fullPath: '/meals'
+      preLoaderRoute: typeof MealsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -132,6 +177,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MealsRoute: MealsRoute,
+  PlannerRoute: PlannerRoute,
   PortionCreateRoute: PortionCreateRoute,
   PortionListRoute: PortionListRoute,
   PortionUpdateRoute: PortionUpdateRoute,
