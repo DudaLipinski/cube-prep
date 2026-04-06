@@ -14,7 +14,6 @@ import { Route as MealsRouteImport } from './routes/meals'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PortionIndexRouteImport } from './routes/portion/index'
 import { Route as PortionUpdateRouteImport } from './routes/portion/update'
-import { Route as PortionListRouteImport } from './routes/portion/list'
 import { Route as PortionCreateRouteImport } from './routes/portion/create'
 
 const PlannerRoute = PlannerRouteImport.update({
@@ -42,11 +41,6 @@ const PortionUpdateRoute = PortionUpdateRouteImport.update({
   path: '/portion/update',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PortionListRoute = PortionListRouteImport.update({
-  id: '/portion/list',
-  path: '/portion/list',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PortionCreateRoute = PortionCreateRouteImport.update({
   id: '/portion/create',
   path: '/portion/create',
@@ -58,7 +52,6 @@ export interface FileRoutesByFullPath {
   '/meals': typeof MealsRoute
   '/planner': typeof PlannerRoute
   '/portion/create': typeof PortionCreateRoute
-  '/portion/list': typeof PortionListRoute
   '/portion/update': typeof PortionUpdateRoute
   '/portion/': typeof PortionIndexRoute
 }
@@ -67,7 +60,6 @@ export interface FileRoutesByTo {
   '/meals': typeof MealsRoute
   '/planner': typeof PlannerRoute
   '/portion/create': typeof PortionCreateRoute
-  '/portion/list': typeof PortionListRoute
   '/portion/update': typeof PortionUpdateRoute
   '/portion': typeof PortionIndexRoute
 }
@@ -77,7 +69,6 @@ export interface FileRoutesById {
   '/meals': typeof MealsRoute
   '/planner': typeof PlannerRoute
   '/portion/create': typeof PortionCreateRoute
-  '/portion/list': typeof PortionListRoute
   '/portion/update': typeof PortionUpdateRoute
   '/portion/': typeof PortionIndexRoute
 }
@@ -88,7 +79,6 @@ export interface FileRouteTypes {
     | '/meals'
     | '/planner'
     | '/portion/create'
-    | '/portion/list'
     | '/portion/update'
     | '/portion/'
   fileRoutesByTo: FileRoutesByTo
@@ -97,7 +87,6 @@ export interface FileRouteTypes {
     | '/meals'
     | '/planner'
     | '/portion/create'
-    | '/portion/list'
     | '/portion/update'
     | '/portion'
   id:
@@ -106,7 +95,6 @@ export interface FileRouteTypes {
     | '/meals'
     | '/planner'
     | '/portion/create'
-    | '/portion/list'
     | '/portion/update'
     | '/portion/'
   fileRoutesById: FileRoutesById
@@ -116,7 +104,6 @@ export interface RootRouteChildren {
   MealsRoute: typeof MealsRoute
   PlannerRoute: typeof PlannerRoute
   PortionCreateRoute: typeof PortionCreateRoute
-  PortionListRoute: typeof PortionListRoute
   PortionUpdateRoute: typeof PortionUpdateRoute
   PortionIndexRoute: typeof PortionIndexRoute
 }
@@ -158,13 +145,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortionUpdateRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/portion/list': {
-      id: '/portion/list'
-      path: '/portion/list'
-      fullPath: '/portion/list'
-      preLoaderRoute: typeof PortionListRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/portion/create': {
       id: '/portion/create'
       path: '/portion/create'
@@ -180,7 +160,6 @@ const rootRouteChildren: RootRouteChildren = {
   MealsRoute: MealsRoute,
   PlannerRoute: PlannerRoute,
   PortionCreateRoute: PortionCreateRoute,
-  PortionListRoute: PortionListRoute,
   PortionUpdateRoute: PortionUpdateRoute,
   PortionIndexRoute: PortionIndexRoute,
 }
