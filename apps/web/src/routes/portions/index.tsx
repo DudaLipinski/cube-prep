@@ -90,8 +90,8 @@ const inventoryTiles = {
     qtyBadgeClass: "bg-tertiary-fixed-dim/30 text-foreground/80 dark:bg-tertiary-fixed-dim/25",
     icon: Wheat,
   },
-  fat: {
-    label: "Fat",
+  broth: {
+    label: "Broth",
     bgClass: "bg-card",
     iconBadgeClass: "bg-accent/40 dark:bg-accent/30",
     qtyBadgeClass: "bg-accent/25 text-foreground/80 dark:bg-accent/20",
