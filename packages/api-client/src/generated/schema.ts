@@ -4,7 +4,7 @@
  */
 
 export interface paths {
-    "/portion": {
+    "/portions": {
         parameters: {
             query?: never;
             header?: never;
@@ -75,7 +75,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/portion/{id}": {
+    "/portions/{id}": {
         parameters: {
             query?: never;
             header?: never;

@@ -25,9 +25,9 @@ afterEach(() => {
   (db as any).insert = originalInsert;
 });
 
-describe("POST /portion", () => {
+describe("POST /portions", () => {
   it("should create a portion", async () => {
-    const request = new Request("http://localhost:3000/portion", {
+    const request = new Request("http://localhost:3000/portions", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -58,7 +58,7 @@ describe("POST /portion", () => {
   });
 
   it("should reject invalid type", async () => {
-    const request = new Request("http://localhost:3000/portion", {
+    const request = new Request("http://localhost:3000/portions", {
       method: "POST",
       headers: {
         "content-type": "application/json",

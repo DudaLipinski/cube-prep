@@ -18,5 +18,5 @@ This script:
 ```ts
 import { apiClient, type Portion } from "@cube-prep/api-client";
 
-const { data } = await apiClient.GET("/portion");
+const { data } = await apiClient.GET("/portions");
 ```

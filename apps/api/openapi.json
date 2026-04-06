@@ -18,7 +18,16 @@
           },
           "type": {
             "type": "string",
-            "enum": ["carb", "protein", "vegetable", "legume", "fat", "sauce", "soup", "other"]
+            "enum": [
+              "carb",
+              "protein",
+              "vegetable",
+              "legume",
+              "fat",
+              "sauce",
+              "soup",
+              "other"
+            ]
           },
           "quantity": {
             "type": "number"
@@ -32,14 +41,23 @@
             "format": "date-time"
           }
         },
-        "required": ["id", "name", "type", "quantity", "prepared_at", "created_at"]
+        "required": [
+          "id",
+          "name",
+          "type",
+          "quantity",
+          "prepared_at",
+          "created_at"
+        ]
       },
       "ValidationError": {
         "type": "object",
         "properties": {
           "error": {
             "type": "string",
-            "enum": ["validation_error"]
+            "enum": [
+              "validation_error"
+            ]
           },
           "message": {
             "type": "string"
@@ -56,28 +74,43 @@
                   "type": "string"
                 }
               },
-              "required": ["field", "message"]
+              "required": [
+                "field",
+                "message"
+              ]
             }
           }
         },
-        "required": ["error", "message", "issues"]
+        "required": [
+          "error",
+          "message",
+          "issues"
+        ]
       },
       "NotFoundError": {
         "type": "object",
         "properties": {
           "error": {
             "type": "string",
-            "enum": ["not_found"]
+            "enum": [
+              "not_found"
+            ]
           },
           "message": {
             "type": "string"
           },
           "status": {
             "type": "number",
-            "enum": [404]
+            "enum": [
+              404
+            ]
           }
         },
-        "required": ["error", "message", "status"]
+        "required": [
+          "error",
+          "message",
+          "status"
+        ]
       },
       "CreatePortionBody": {
         "type": "object",
@@ -89,7 +122,16 @@
           },
           "type": {
             "type": "string",
-            "enum": ["carb", "protein", "vegetable", "legume", "fat", "sauce", "soup", "other"]
+            "enum": [
+              "carb",
+              "protein",
+              "vegetable",
+              "legume",
+              "fat",
+              "sauce",
+              "soup",
+              "other"
+            ]
           },
           "quantity": {
             "type": "number",
@@ -102,7 +144,12 @@
             "format": "date-time"
           }
         },
-        "required": ["name", "type", "quantity", "prepared_at"]
+        "required": [
+          "name",
+          "type",
+          "quantity",
+          "prepared_at"
+        ]
       },
       "UpdatePortionBody": {
         "type": "object",
@@ -114,7 +161,16 @@
           },
           "type": {
             "type": "string",
-            "enum": ["carb", "protein", "vegetable", "legume", "fat", "sauce", "soup", "other"]
+            "enum": [
+              "carb",
+              "protein",
+              "vegetable",
+              "legume",
+              "fat",
+              "sauce",
+              "soup",
+              "other"
+            ]
           },
           "quantity": {
             "type": "number",
@@ -133,23 +189,38 @@
         "properties": {
           "message": {
             "type": "string",
-            "enum": ["Portion deleted successfully"]
+            "enum": [
+              "Portion deleted successfully"
+            ]
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       }
     },
     "parameters": {}
   },
   "paths": {
-    "/portion": {
+    "/portions": {
       "get": {
-        "tags": ["Portion"],
+        "tags": [
+          "Portion"
+        ],
         "parameters": [
           {
             "schema": {
               "type": "string",
-              "enum": ["carb", "protein", "vegetable", "legume", "fat", "sauce", "soup", "other"],
+              "enum": [
+                "carb",
+                "protein",
+                "vegetable",
+                "legume",
+                "fat",
+                "sauce",
+                "soup",
+                "other"
+              ],
               "example": "protein"
             },
             "required": false,
@@ -159,7 +230,12 @@
           {
             "schema": {
               "type": "string",
-              "enum": ["name", "quantity", "prepared_at", "created_at"],
+              "enum": [
+                "name",
+                "quantity",
+                "prepared_at",
+                "created_at"
+              ],
               "example": "created_at"
             },
             "required": false,
@@ -169,7 +245,10 @@
           {
             "schema": {
               "type": "string",
-              "enum": ["asc", "desc"],
+              "enum": [
+                "asc",
+                "desc"
+              ],
               "example": "desc"
             },
             "required": false,
@@ -194,7 +273,9 @@
         }
       },
       "post": {
-        "tags": ["Portion"],
+        "tags": [
+          "Portion"
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -228,9 +309,11 @@
         }
       }
     },
-    "/portion/{id}": {
+    "/portions/{id}": {
       "get": {
-        "tags": ["Portion"],
+        "tags": [
+          "Portion"
+        ],
         "parameters": [
           {
             "schema": {
@@ -277,7 +360,9 @@
         }
       },
       "patch": {
-        "tags": ["Portion"],
+        "tags": [
+          "Portion"
+        ],
         "parameters": [
           {
             "schema": {
@@ -333,7 +418,9 @@
         }
       },
       "delete": {
-        "tags": ["Portion"],
+        "tags": [
+          "Portion"
+        ],
         "parameters": [
           {
             "schema": {

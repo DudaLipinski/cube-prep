@@ -18,9 +18,9 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 
 const navigationItems = [
   {
-    to: "/",
+    to: "/portions",
     label: "Inventory",
-    isActive: (pathname: string) => pathname === "/" || pathname === "/portion" || pathname.startsWith("/portion/"),
+    isActive: (pathname: string) => pathname === "/portions" || pathname.startsWith("/portions/"),
   },
   {
     to: "/planner",

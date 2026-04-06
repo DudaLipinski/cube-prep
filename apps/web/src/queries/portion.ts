@@ -4,7 +4,7 @@ import { apiClient, type CreatePortionBody, type UpdatePortionBody } from "@cube
 export const portionsQueryOptions = queryOptions({
   queryKey: ["portions"],
   queryFn: async () => {
-    const { data } = await apiClient.GET("/portion");
+    const { data } = await apiClient.GET("/portions");
 
     if (!data) {
       throw new Error("Could not load portions.");
@@ -17,7 +17,7 @@ export const portionsQueryOptions = queryOptions({
 export const portionsMutationOptions = mutationOptions({
   mutationKey: ["create-portion"],
   mutationFn: async (payload: CreatePortionBody) => {
-    const { data } = await apiClient.POST("/portion", {
+    const { data } = await apiClient.POST("/portions", {
       body: payload,
     });
 
@@ -37,7 +37,7 @@ export const portionByIdQueryOptions = (portionId?: string) =>
         throw new Error("No portion selected.");
       }
 
-      const { data } = await apiClient.GET("/portion/{id}", {
+      const { data } = await apiClient.GET("/portions/{id}", {
         params: { path: { id: portionId } },
       });
 
@@ -57,7 +57,7 @@ export const updatePortionMutationOptions = (portionId?: string) =>
         throw new Error("No portion selected.");
       }
 
-      const { data } = await apiClient.PATCH("/portion/{id}", {
+      const { data } = await apiClient.PATCH("/portions/{id}", {
         params: { path: { id: portionId } },
         body: payload,
       });
