@@ -9,7 +9,7 @@ const app = new OpenAPIHono({
 
 app.get("/", (c) => c.text("API running"));
 
-app.route("/portion", portionRoutes);
+app.route("/portions", portionRoutes);
 
 app.doc("/openapi.json", {
   openapi: "3.0.0",

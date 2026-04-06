@@ -12,9 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as PlannerRouteImport } from './routes/planner'
 import { Route as MealsRouteImport } from './routes/meals'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PortionIndexRouteImport } from './routes/portion/index'
-import { Route as PortionUpdateRouteImport } from './routes/portion/update'
-import { Route as PortionCreateRouteImport } from './routes/portion/create'
+import { Route as PortionsIndexRouteImport } from './routes/portions/index'
+import { Route as PortionsCreateRouteImport } from './routes/portions/create'
+import { Route as PortionsPortionIdEditRouteImport } from './routes/portions/$portionId/edit'
 
 const PlannerRoute = PlannerRouteImport.update({
   id: '/planner',
@@ -31,19 +31,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PortionIndexRoute = PortionIndexRouteImport.update({
-  id: '/portion/',
-  path: '/portion/',
+const PortionsIndexRoute = PortionsIndexRouteImport.update({
+  id: '/portions/',
+  path: '/portions/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PortionUpdateRoute = PortionUpdateRouteImport.update({
-  id: '/portion/update',
-  path: '/portion/update',
+const PortionsCreateRoute = PortionsCreateRouteImport.update({
+  id: '/portions/create',
+  path: '/portions/create',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PortionCreateRoute = PortionCreateRouteImport.update({
-  id: '/portion/create',
-  path: '/portion/create',
+const PortionsPortionIdEditRoute = PortionsPortionIdEditRouteImport.update({
+  id: '/portions/$portionId/edit',
+  path: '/portions/$portionId/edit',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -51,26 +51,26 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/meals': typeof MealsRoute
   '/planner': typeof PlannerRoute
-  '/portion/create': typeof PortionCreateRoute
-  '/portion/update': typeof PortionUpdateRoute
-  '/portion/': typeof PortionIndexRoute
+  '/portions/create': typeof PortionsCreateRoute
+  '/portions/': typeof PortionsIndexRoute
+  '/portions/$portionId/edit': typeof PortionsPortionIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/meals': typeof MealsRoute
   '/planner': typeof PlannerRoute
-  '/portion/create': typeof PortionCreateRoute
-  '/portion/update': typeof PortionUpdateRoute
-  '/portion': typeof PortionIndexRoute
+  '/portions/create': typeof PortionsCreateRoute
+  '/portions': typeof PortionsIndexRoute
+  '/portions/$portionId/edit': typeof PortionsPortionIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/meals': typeof MealsRoute
   '/planner': typeof PlannerRoute
-  '/portion/create': typeof PortionCreateRoute
-  '/portion/update': typeof PortionUpdateRoute
-  '/portion/': typeof PortionIndexRoute
+  '/portions/create': typeof PortionsCreateRoute
+  '/portions/': typeof PortionsIndexRoute
+  '/portions/$portionId/edit': typeof PortionsPortionIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -78,34 +78,34 @@ export interface FileRouteTypes {
     | '/'
     | '/meals'
     | '/planner'
-    | '/portion/create'
-    | '/portion/update'
-    | '/portion/'
+    | '/portions/create'
+    | '/portions/'
+    | '/portions/$portionId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/meals'
     | '/planner'
-    | '/portion/create'
-    | '/portion/update'
-    | '/portion'
+    | '/portions/create'
+    | '/portions'
+    | '/portions/$portionId/edit'
   id:
     | '__root__'
     | '/'
     | '/meals'
     | '/planner'
-    | '/portion/create'
-    | '/portion/update'
-    | '/portion/'
+    | '/portions/create'
+    | '/portions/'
+    | '/portions/$portionId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   MealsRoute: typeof MealsRoute
   PlannerRoute: typeof PlannerRoute
-  PortionCreateRoute: typeof PortionCreateRoute
-  PortionUpdateRoute: typeof PortionUpdateRoute
-  PortionIndexRoute: typeof PortionIndexRoute
+  PortionsCreateRoute: typeof PortionsCreateRoute
+  PortionsIndexRoute: typeof PortionsIndexRoute
+  PortionsPortionIdEditRoute: typeof PortionsPortionIdEditRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -131,25 +131,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/portion/': {
-      id: '/portion/'
-      path: '/portion'
-      fullPath: '/portion/'
-      preLoaderRoute: typeof PortionIndexRouteImport
+    '/portions/': {
+      id: '/portions/'
+      path: '/portions'
+      fullPath: '/portions/'
+      preLoaderRoute: typeof PortionsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/portion/update': {
-      id: '/portion/update'
-      path: '/portion/update'
-      fullPath: '/portion/update'
-      preLoaderRoute: typeof PortionUpdateRouteImport
+    '/portions/create': {
+      id: '/portions/create'
+      path: '/portions/create'
+      fullPath: '/portions/create'
+      preLoaderRoute: typeof PortionsCreateRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/portion/create': {
-      id: '/portion/create'
-      path: '/portion/create'
-      fullPath: '/portion/create'
-      preLoaderRoute: typeof PortionCreateRouteImport
+    '/portions/$portionId/edit': {
+      id: '/portions/$portionId/edit'
+      path: '/portions/$portionId/edit'
+      fullPath: '/portions/$portionId/edit'
+      preLoaderRoute: typeof PortionsPortionIdEditRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -159,9 +159,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   MealsRoute: MealsRoute,
   PlannerRoute: PlannerRoute,
-  PortionCreateRoute: PortionCreateRoute,
-  PortionUpdateRoute: PortionUpdateRoute,
-  PortionIndexRoute: PortionIndexRoute,
+  PortionsCreateRoute: PortionsCreateRoute,
+  PortionsIndexRoute: PortionsIndexRoute,
+  PortionsPortionIdEditRoute: PortionsPortionIdEditRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

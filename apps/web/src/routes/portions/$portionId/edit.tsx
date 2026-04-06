@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { z } from "zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   portionsQueryOptions,
@@ -18,17 +17,14 @@ import {
   mapPortionToFormValues,
   portionTypes,
   type PortionFormState,
-} from "./-portion-form.shared";
+} from "../-portion-form.shared";
 
-export const Route = createFileRoute("/portion/update")({
-  validateSearch: z.object({
-    portionId: z.uuid().optional(),
-  }),
+export const Route = createFileRoute("/portions/$portionId/edit")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { portionId } = Route.useSearch();
+  const { portionId } = Route.useParams();
 
   const portionQuery = useQuery({
     ...portionByIdQueryOptions(portionId),
@@ -41,19 +37,17 @@ function RouteComponent() {
         Update Portion
       </h1>
 
-      {!portionId && <p className="text-sm text-on-surface-variant">No portion selected.</p>}
-
-      {portionId && portionQuery.isPending && (
+      {portionQuery.isPending && (
         <p className="text-sm text-on-surface-variant">Loading selected portion...</p>
       )}
 
-      {portionId && portionQuery.isError && (
+      {portionQuery.isError && (
         <p className="rounded-2xl bg-destructive/10 px-3 py-2 text-sm tracking-[0.01em] text-destructive">
           Could not load selected portion.
         </p>
       )}
 
-      {portionId && portionQuery.data && (
+      {portionQuery.data && (
         <UpdatePortionForm
           key={portionId}
           portionId={portionId}

@@ -15,7 +15,7 @@ import {
   type PortionFormState,
 } from "./-portion-form.shared";
 
-export const Route = createFileRoute("/portion/create")({
+export const Route = createFileRoute("/portions/create")({
   component: CreatePortion,
 });
 
