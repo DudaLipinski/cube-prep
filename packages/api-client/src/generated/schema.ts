@@ -14,7 +14,7 @@ export interface paths {
         get: {
             parameters: {
                 query?: {
-                    type?: "carb" | "protein" | "vegetable" | "legume" | "fat" | "sauce" | "soup" | "other";
+                    type?: "carb" | "protein" | "vegetable" | "legume" | "broth" | "sauce" | "soup" | "other";
                     sort?: "name" | "quantity" | "prepared_at" | "created_at";
                     order?: "asc" | "desc";
                 };
@@ -221,7 +221,7 @@ export interface components {
             id: string;
             name: string;
             /** @enum {string} */
-            type: "carb" | "protein" | "vegetable" | "legume" | "fat" | "sauce" | "soup" | "other";
+            type: "carb" | "protein" | "vegetable" | "legume" | "broth" | "sauce" | "soup" | "other";
             quantity: number;
             /** Format: date-time */
             prepared_at: string;
@@ -248,7 +248,7 @@ export interface components {
             /** @example Rice cubes */
             name: string;
             /** @enum {string} */
-            type: "carb" | "protein" | "vegetable" | "legume" | "fat" | "sauce" | "soup" | "other";
+            type: "carb" | "protein" | "vegetable" | "legume" | "broth" | "sauce" | "soup" | "other";
             /** @example 4 */
             quantity: number;
             /** Format: date-time */
@@ -258,7 +258,7 @@ export interface components {
             /** @example Rice cubes */
             name?: string;
             /** @enum {string} */
-            type?: "carb" | "protein" | "vegetable" | "legume" | "fat" | "sauce" | "soup" | "other";
+            type?: "carb" | "protein" | "vegetable" | "legume" | "broth" | "sauce" | "soup" | "other";
             /** @example 4 */
             quantity?: number;
             /** Format: date-time */

@@ -3,7 +3,7 @@ export const PORTION_TYPES = [
   "protein",
   "vegetable",
   "legume",
-  "fat",
+  "broth",
   "sauce",
   "soup",
   "other",

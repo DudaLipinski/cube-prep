@@ -12,7 +12,7 @@ export const portionTypes: Array<CreatePortionBody["type"]> = [
   "protein",
   "vegetable",
   "legume",
-  "fat",
+  "broth",
   "sauce",
   "soup",
   "other",
