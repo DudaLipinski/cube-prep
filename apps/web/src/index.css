@@ -19,14 +19,14 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --background: #fef9f1;
+  --background: #fdfaf3;
   --foreground: #35322a;
   --card: #ffffff;
   --card-foreground: #35322a;
-  --popover: rgb(252 251 247 / 100%);
+  --popover: rgb(253 250 243 / 100%);
   --popover-foreground: #35322a;
   --primary: #526447;
-  --primary-foreground: #fef9f1;
+  --primary-foreground: #fdfaf3;
   --primary-dim: #6f8662;
   --primary-container: #d4e9c4;
   --secondary: #b56d52;
@@ -63,6 +63,14 @@
   --primary-fixed-dim: #9fb593;
   --secondary-fixed-dim: #d9a995;
   --tertiary-fixed-dim: #c5b8dc;
+  --food-protein: #c45a50;
+  --food-legume: #8a7358;
+  --food-vegetable: #62a85c;
+  --food-carb: #c8a04c;
+  --food-broth: #7ebac6;
+  --food-sauce: #c87248;
+  --food-soup: #b07245;
+  --food-other: #7898b0;
   --sidebar: oklch(0.986 0.002 67.8);
   --sidebar-foreground: oklch(0.147 0.004 49.3);
   --sidebar-primary: oklch(0.666 0.179 58.318);
@@ -127,6 +135,14 @@
   --color-primary-fixed-dim: var(--primary-fixed-dim);
   --color-secondary-fixed-dim: var(--secondary-fixed-dim);
   --color-tertiary-fixed-dim: var(--tertiary-fixed-dim);
+  --color-food-protein: var(--food-protein);
+  --color-food-legume: var(--food-legume);
+  --color-food-vegetable: var(--food-vegetable);
+  --color-food-carb: var(--food-carb);
+  --color-food-broth: var(--food-broth);
+  --color-food-sauce: var(--food-sauce);
+  --color-food-soup: var(--food-soup);
+  --color-food-other: var(--food-other);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -188,6 +204,14 @@
   --primary-fixed-dim: #708964;
   --secondary-fixed-dim: #bc8874;
   --tertiary-fixed-dim: #a99cc7;
+  --food-protein: #d87870;
+  --food-legume: #a08e6e;
+  --food-vegetable: #7ac476;
+  --food-carb: #d4b46c;
+  --food-broth: #92c6d2;
+  --food-sauce: #d48868;
+  --food-soup: #c29062;
+  --food-other: #90a8c4;
 }
 
 @layer base {

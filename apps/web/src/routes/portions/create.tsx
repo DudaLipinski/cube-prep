@@ -1,17 +1,24 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { portionsMutationOptions, portionsQueryKey } from "@/queries/portion";
 import { Button } from "@/components/ui/button";
 import { useForm } from "@tanstack/react-form";
-import { Field, FieldContent, FieldGroup, FieldLabel, FieldTitle } from "@/components/ui/field";
+import { FieldContent, FieldGroup, FieldLabel, FieldTitle } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChevronLeft } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { TypeSelector } from "@/components/portions/TypeSelector";
 import { toast } from "sonner";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 import {
   getDefaultPortionFormValues,
   mapFormToPortionPayload,
   portionTypes,
+  portionTypeConfig,
   type PortionFormState,
 } from "./-portion-form.shared";
 
@@ -52,15 +59,19 @@ function CreatePortion() {
   const isSubmitting = mutation.isPending || form.state.isSubmitting;
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-2xl flex-col justify-center px-4 py-8 sm:px-6 md:px-8">
-      <h1 className="mb-5 text-3xl font-semibold tracking-[-0.02em] text-foreground md:text-[2.15rem]">
-        Create Portion
-      </h1>
-
+    <main className="mx-auto w-full max-w-lg px-4 py-6">
       <Card>
+        <CardHeader className="flex flex-row items-center gap-2 pb-4">
+          <Button variant="ghost" size="icon" asChild className="-ml-2 size-8 shrink-0">
+            <Link to="/portions">
+              <ChevronLeft className="size-4" />
+            </Link>
+          </Button>
+          <CardTitle className="text-xl font-semibold tracking-[-0.02em]">Create Portion</CardTitle>
+        </CardHeader>
         <CardContent>
           <form
-            className="space-y-6"
+            className="space-y-4"
             onSubmit={(event) => {
               event.preventDefault();
               event.stopPropagation();
@@ -68,7 +79,7 @@ function CreatePortion() {
               form.handleSubmit();
             }}
           >
-            <FieldGroup>
+            <FieldGroup className="gap-4">
               <form.Field name="name">
                 {(field) => (
                   <>
@@ -90,25 +101,14 @@ function CreatePortion() {
                   <>
                     <FieldTitle>Type</FieldTitle>
                     <FieldContent>
-                      <RadioGroup
+                      <TypeSelector
                         value={field.state.value}
                         onValueChange={(value) =>
                           field.handleChange(value as PortionFormState["type"])
                         }
-                        className="grid grid-cols-2 gap-3 sm:grid-cols-4"
-                      >
-                        {portionTypes.map((type) => (
-                          <FieldLabel key={type} htmlFor={`portion-type-${type}`}>
-                            <Field
-                              orientation="horizontal"
-                              className="items-center rounded-xl border p-3"
-                            >
-                              <RadioGroupItem id={`portion-type-${type}`} value={type} />
-                              <span className="capitalize">{type}</span>
-                            </Field>
-                          </FieldLabel>
-                        ))}
-                      </RadioGroup>
+                        types={portionTypes}
+                        typeConfig={portionTypeConfig}
+                      />
                     </FieldContent>
                   </>
                 )}
@@ -134,23 +134,70 @@ function CreatePortion() {
               </form.Field>
 
               <form.Field name="preparedAt">
-                {(field) => (
-                  <>
-                    <FieldLabel htmlFor="portion-prepared-at">Prepared at</FieldLabel>
-                    <Input
-                      id="portion-prepared-at"
-                      type="datetime-local"
-                      value={field.state.value}
-                      onChange={(event) => field.handleChange(event.target.value)}
-                      onBlur={field.handleBlur}
-                      required
-                    />
-                  </>
-                )}
+                {(field) => {
+                  const date = new Date(field.state.value);
+                  const time = field.state.value.split("T")[1] || "12:00";
+
+                  return (
+                    <>
+                      <FieldLabel>Prepared at</FieldLabel>
+                      <div className="flex gap-2">
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant="outline"
+                              className={cn(
+                                "flex-1 justify-start text-left font-normal",
+                                !field.state.value && "text-muted-foreground",
+                              )}
+                            >
+                              <CalendarIcon className="mr-2 h-4 w-4" />
+                              {format(date, "MMM d, yyyy")}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={date}
+                              onSelect={(selectedDate) => {
+                                if (selectedDate) {
+                                  const newDate = new Date(selectedDate);
+                                  const [hours, minutes] = time.split(":").map(Number);
+                                  newDate.setHours(hours, minutes);
+                                  const tzOffsetMs = newDate.getTimezoneOffset() * 60 * 1000;
+                                  const isoString = new Date(newDate.getTime() - tzOffsetMs)
+                                    .toISOString()
+                                    .slice(0, 16);
+                                  field.handleChange(isoString);
+                                }
+                              }}
+                            />
+                          </PopoverContent>
+                        </Popover>
+
+                        <Input
+                          type="time"
+                          value={time}
+                          onChange={(event) => {
+                            const [hours, minutes] = event.target.value.split(":").map(Number);
+                            const newDate = new Date(date);
+                            newDate.setHours(hours, minutes);
+                            const tzOffsetMs = newDate.getTimezoneOffset() * 60 * 1000;
+                            const isoString = new Date(newDate.getTime() - tzOffsetMs)
+                              .toISOString()
+                              .slice(0, 16);
+                            field.handleChange(isoString);
+                          }}
+                          className="w-24"
+                        />
+                      </div>
+                    </>
+                  );
+                }}
               </form.Field>
             </FieldGroup>
 
-            <Button type="submit" size="lg" disabled={isSubmitting}>
+            <Button type="submit" size="lg" disabled={isSubmitting} className="w-full">
               {isSubmitting ? "Saving..." : "Create portion"}
             </Button>
           </form>

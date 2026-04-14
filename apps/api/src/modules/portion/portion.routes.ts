@@ -162,7 +162,7 @@ portionRoutes.openapi(
         description: "Updated portion",
         content: {
           "application/json": {
-            schema: portionResponseSchema,
+            schema: portionResponseSchema.or(deleteSuccessSchema),
           },
         },
       },
@@ -187,6 +187,16 @@ portionRoutes.openapi(
   async (c) => {
     const payload = c.req.valid("json");
     const { id } = c.req.valid("param");
+
+    if (payload.quantity !== undefined && payload.quantity <= 0) {
+      const deletedPortions = await deletePortion(id);
+
+      if (!deletedPortions.length) {
+        return c.json(notFoundPortion, 404);
+      }
+
+      return c.json({ message: "Portion deleted successfully" as const }, 200);
+    }
 
     const portion = await updatePortion(id, payload);
 

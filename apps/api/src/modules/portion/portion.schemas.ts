@@ -35,8 +35,13 @@ export const createPortionBodySchema = z
   })
   .openapi("CreatePortionBody");
 
-export const updatePortionBodySchema = createPortionBodySchema
-  .partial()
+export const updatePortionBodySchema = z
+  .object({
+    name: z.string().trim().min(1).optional().openapi({ example: "Rice cubes" }),
+    type: portionTypeSchema.optional(),
+    quantity: z.number().optional().openapi({ example: 4 }),
+    prepared_at: dateSchema.optional(),
+  })
   .refine((value) => Object.keys(value).length > 0, {
     error: "At least one field is required",
   })

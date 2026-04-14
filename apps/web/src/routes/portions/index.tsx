@@ -3,10 +3,27 @@ import { portionsQueryOptions } from "@/queries/portion";
 import { useQuery } from "@tanstack/react-query";
 import { type ComponentType, type SVGProps } from "react";
 import type { Portion } from "@cube-prep/api-client";
-import { Bean, CookingPot, Droplets, Drumstick, Leaf, Plus, Soup, Wheat } from "lucide-react";
+import {
+  Bean,
+  CookingPot,
+  Droplet,
+  Droplets,
+  Drumstick,
+  Leaf,
+  Ellipsis,
+  Plus,
+  Soup,
+  Wheat,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardAction } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardAction,
+} from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -17,11 +34,12 @@ import {
 import { formatDistanceToNowStrict } from "date-fns";
 import { Route as createRoute } from "@/routes/portions/create";
 import { Route as editRoute } from "@/routes/portions/$portionId/edit";
+import { QuickGrabAction } from "@/components/portions/QuickGrabAction";
 
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/portions/")({
-  validateSearch: (search) => {
+  validateSearch: (search): { sort?: SortField; order?: SortOrder } => {
     const sort = typeof search.sort === "string" ? search.sort : undefined;
     const order = typeof search.order === "string" ? search.order : undefined;
 
@@ -40,6 +58,7 @@ type InventoryTile = {
   label: string;
   bgClass: string;
   iconBadgeClass: string;
+  iconColorClass: string;
   qtyBadgeClass: string;
   icon: ComponentType<SVGProps<SVGSVGElement>>;
 };
@@ -64,58 +83,66 @@ const sortOptionLabels: Record<SortOptionValue, string> = {
 const inventoryTiles = {
   protein: {
     label: "Protein",
-    bgClass: "bg-card",
-    iconBadgeClass: "bg-secondary-fixed-dim/45 dark:bg-secondary-fixed-dim/35",
-    qtyBadgeClass: "bg-secondary-fixed-dim/30 text-foreground/80 dark:bg-secondary-fixed-dim/25",
+    bgClass: "bg-white dark:bg-surface-container-low",
+    iconBadgeClass: "bg-food-protein/20",
+    iconColorClass: "text-food-protein",
+    qtyBadgeClass: "bg-food-protein/15 text-foreground/85",
     icon: Drumstick,
   },
   legume: {
     label: "Legume",
-    bgClass: "bg-card",
-    iconBadgeClass: "bg-primary-dim/40 dark:bg-primary-dim/28",
-    qtyBadgeClass: "bg-white text-foreground/80 dark:bg-primary-dim/20",
+    bgClass: "bg-white dark:bg-surface-container-low",
+    iconBadgeClass: "bg-food-legume/20",
+    iconColorClass: "text-food-legume",
+    qtyBadgeClass: "bg-food-legume/15 text-foreground/85",
     icon: Bean,
   },
   vegetable: {
     label: "Veggie",
-    bgClass: "bg-card",
-    iconBadgeClass: "bg-primary-fixed-dim/45 dark:bg-primary-fixed-dim/35",
-    qtyBadgeClass: "bg-primary-fixed-dim/30 text-foreground/80 dark:bg-primary-fixed-dim/25",
+    bgClass: "bg-white dark:bg-surface-container-low",
+    iconBadgeClass: "bg-food-vegetable/20",
+    iconColorClass: "text-food-vegetable",
+    qtyBadgeClass: "bg-food-vegetable/15 text-foreground/85",
     icon: Leaf,
   },
   carb: {
     label: "Carb",
-    bgClass: "bg-card",
-    iconBadgeClass: "bg-tertiary-fixed-dim/45 dark:bg-tertiary-fixed-dim/35",
-    qtyBadgeClass: "bg-tertiary-fixed-dim/30 text-foreground/80 dark:bg-tertiary-fixed-dim/25",
+    bgClass: "bg-white dark:bg-surface-container-low",
+    iconBadgeClass: "bg-food-carb/20",
+    iconColorClass: "text-food-carb",
+    qtyBadgeClass: "bg-food-carb/15 text-foreground/85",
     icon: Wheat,
   },
   broth: {
     label: "Broth",
-    bgClass: "bg-card",
-    iconBadgeClass: "bg-accent/40 dark:bg-accent/30",
-    qtyBadgeClass: "bg-accent/25 text-foreground/80 dark:bg-accent/20",
-    icon: Droplets,
+    bgClass: "bg-white dark:bg-surface-container-low",
+    iconBadgeClass: "bg-food-broth/20",
+    iconColorClass: "text-food-broth",
+    qtyBadgeClass: "bg-food-broth/15 text-foreground/85",
+    icon: Droplet,
   },
   sauce: {
     label: "Sauce",
-    bgClass: "bg-card",
-    iconBadgeClass: "bg-accent/40 dark:bg-accent/30",
-    qtyBadgeClass: "bg-accent/25 text-foreground/80 dark:bg-accent/20",
+    bgClass: "bg-white dark:bg-surface-container-low",
+    iconBadgeClass: "bg-food-sauce/20",
+    iconColorClass: "text-food-sauce",
+    qtyBadgeClass: "bg-food-sauce/15 text-foreground/85",
     icon: Droplets,
   },
   soup: {
     label: "Soup",
-    bgClass: "bg-card",
-    iconBadgeClass: "bg-accent/40 dark:bg-accent/30",
-    qtyBadgeClass: "bg-accent/25 text-foreground/80 dark:bg-accent/20",
+    bgClass: "bg-white dark:bg-surface-container-low",
+    iconBadgeClass: "bg-food-soup/20",
+    iconColorClass: "text-food-soup",
+    qtyBadgeClass: "bg-food-soup/15 text-foreground/85",
     icon: Soup,
   },
   other: {
     label: "Other",
-    bgClass: "bg-card",
-    iconBadgeClass: "bg-surface-container-highest dark:bg-surface-bright/35",
-    qtyBadgeClass: "bg-surface-container-highest text-foreground/80 dark:bg-surface-bright/30",
+    bgClass: "bg-white dark:bg-surface-container-low",
+    iconBadgeClass: "bg-food-other/20",
+    iconColorClass: "text-food-other",
+    qtyBadgeClass: "bg-food-other/15 text-foreground/85",
     icon: CookingPot,
   },
 } satisfies Record<PortionType, InventoryTile>;
@@ -132,10 +159,6 @@ function PortionsPage() {
 
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-col px-4 py-6 pb-28 sm:px-6 md:px-8 md:py-8 md:pb-14 xl:max-w-6xl">
-      <h1 className="mb-5 text-2xl font-semibold tracking-[-0.02em] text-foreground md:text-[1.95rem]">
-        Pantry Inventory
-      </h1>
-
       {isError && (
         <p className="rounded-2xl bg-destructive/10 px-3 py-2 text-sm tracking-[0.01em] text-destructive">
           Could not load portions.
@@ -184,59 +207,66 @@ function PortionsPage() {
             const Icon = tile.icon;
 
             return (
-              <Link
-                key={portion.id}
-                to={editRoute.to}
-                params={{ portionId: portion.id }}
-                className="h-full rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              >
+              <QuickGrabAction key={portion.id} portion={portion}>
                 <Card
+                  size="sm"
                   className={cn(
-                    "h-full min-h-44 gap-2 transition-shadow duration-150 hover:shadow-md hover:shadow-black/5 hover:ring-1 hover:ring-border/60 md:min-h-48 md:gap-2.5 lg:min-h-40 lg:gap-2",
+                    "h-full cursor-pointer transition-shadow duration-150 hover:shadow-md hover:shadow-black/5 hover:ring-1 hover:ring-border/60 !gap-1",
                     tile.bgClass,
                   )}
-                  size="sm"
                 >
                   <CardHeader className="lg:px-3 lg:gap-1.5">
-                    <CardTitle
-                      className={cn(
-                        "inline-flex size-10 items-center justify-center rounded-lg md:size-11 md:rounded-xl",
-                        tile.iconBadgeClass,
-                      )}
-                    >
-                      <Icon
-                        className="size-4 text-foreground/75 md:size-[1.125rem]"
-                        aria-hidden="true"
-                      />
-                    </CardTitle>
-                    <CardAction className="flex flex-wrap justify-end gap-1">
-                      <Badge
-                        variant="outline"
+                    <CardTitle className="flex gap-2 items-center">
+                      <div
                         className={cn(
-                          "h-5 px-2 text-[0.7rem] font-semibold tracking-[0.01em] md:h-6 md:text-xs",
-                          tile.qtyBadgeClass,
+                          "inline-flex size-10 items-center justify-center rounded-lg md:size-11 md:rounded-xl",
+                          tile.iconBadgeClass,
                         )}
                       >
-                        {portion.quantity} qty
-                      </Badge>
+                        <Icon
+                          className={cn("size-4 md:size-[1.125rem]", tile.iconColorClass)}
+                          aria-hidden="true"
+                        />
+                      </div>
+                      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-foreground/65 md:text-[0.72rem] md:tracking-[0.14em]">
+                        {tile.label}
+                      </p>
+                    </CardTitle>
+                    <CardAction className="row-span-1">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="size-7 rounded-md border border-outline-variant/35 bg-surface-container-low/85 text-foreground/50 hover:bg-surface-container"
+                        aria-label={`Edit ${portion.name}`}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          navigate({
+                            to: editRoute.to,
+                            params: { portionId: portion.id },
+                          });
+                        }}
+                      >
+                        <Ellipsis className="size-4 text-foreground/45" aria-hidden="true" />
+                      </Button>
                     </CardAction>
+                    <CardDescription className="col-span-2 text-[0.68rem] font-semibold text-foreground/65 md:text-[0.72rem]">
+                      {portion.quantity} qty
+                    </CardDescription>
                   </CardHeader>
 
-                  <CardContent className="flex flex-1 flex-col lg:px-3">
-                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-foreground/65 md:text-[0.72rem] md:tracking-[0.14em]">
-                      {tile.label}
-                    </p>
-                    <h2 className="mt-1 min-h-[2.45em] text-[0.97rem] font-semibold leading-tight tracking-[-0.02em] text-foreground line-clamp-2 md:text-base lg:min-h-[2.2em] lg:text-[0.95rem]">
+                  <CardContent className="flex flex-1 flex-col">
+                    <h2 className="text-[0.97rem] font-semibold leading-tight tracking-[-0.02em] text-foreground line-clamp-2 md:text-base lg:text-[0.95rem]">
                       {portion.name}
                     </h2>
-                    <p className="mt-auto pt-1 text-[0.72rem] text-on-surface-variant md:pt-1.5 md:text-xs lg:pt-1 lg:text-[0.72rem]">
+                    <p className=" text-[0.72rem] text-on-surface-variant md:text-xs pt-1.5 lg:text-[0.72rem]">
                       {formatDistanceToNowStrict(new Date(portion.prepared_at), {
                         addSuffix: true,
                       })}
                     </p>
                   </CardContent>
                 </Card>
-              </Link>
+              </QuickGrabAction>
             );
           })}
       </div>
